@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GameStatus : MonoBehaviour
 {
@@ -14,8 +15,28 @@ public class GameStatus : MonoBehaviour
     int Score;
     private void Awake()
     {
+        SetUpSingleton();
+        
+    }
+    private void Start()
+    {
+        scoreText.text = Score.ToString();
+        SubscribeToBlocks();
+    }
+
+    private void SubscribeToBlocks()
+    {
+        Block[] blocks = FindObjectsOfType<Block>();
+        foreach (Block block in blocks)
+        {
+            block.BlockDestroyed += OnBlockDestroyed;
+        }
+    }
+
+    private void SetUpSingleton()
+    {
         int gameStatusCount = FindObjectsOfType<GameStatus>().Length;
-        if (gameStatusCount >1)
+        if (gameStatusCount > 1)
         {
             gameObject.SetActive(false);
             Destroy(gameObject);
@@ -23,13 +44,11 @@ public class GameStatus : MonoBehaviour
         else
         {
             DontDestroyOnLoad(gameObject);
-            
+
         }
     }
-    private void Start()
-    {
-        scoreText.text = Score.ToString();
-    }
+
+
     public void AddScore()
     {
         Score += blockScore;
@@ -45,4 +64,9 @@ public class GameStatus : MonoBehaviour
         Destroy(gameObject);
     }
     public bool AutoPlay() { return autoPlay; }
+
+    public void OnBlockDestroyed(object block, EventArgs arg)
+    {
+        AddScore();
+    }
 }

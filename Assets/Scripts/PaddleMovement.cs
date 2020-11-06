@@ -5,7 +5,6 @@ using UnityEngine;
 public class PaddleMovement : MonoBehaviour
 {
     [SerializeField] float cameraSize = 16f;
-    Rigidbody2D rigidbody2d;
     Vector2 paddlePos;
     GameStatus gameStatus;
     Ball ball;

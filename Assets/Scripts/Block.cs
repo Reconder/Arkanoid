@@ -3,44 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class BlockEventArgs: EventArgs
+{
+    public int blockScore { get; set; }
+}
+
+//Breakable
 public class Block : MonoBehaviour
 {
     //config params
     [SerializeField] AudioClip breakClip;
     [SerializeField] GameObject destoryVFX;
-
+    [SerializeField] int blockScore;
     [SerializeField] Sprite[] hitSprites;
  
-    Level level;
-    GameStatus gameStatus;
     SpriteRenderer spriteRenderer;
 
+
+    public delegate void BlockDestroyedEventHandler(object source, BlockEventArgs args);
+
+    public event BlockDestroyedEventHandler BlockDestroyed;
+
+    public delegate void CountBlocksEventHandler(object source, EventArgs args);
+
+    public event CountBlocksEventHandler CountBlocks;
 
     [SerializeField] int hits; 
     void Start()
     {
 
-        level = FindObjectOfType<Level>();
-        gameStatus = FindObjectOfType<GameStatus>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (tag == "Breakable")
-        {
-            
-            
-            level.CountBreakableBlocks();
-        }
+        CountBlocks?.Invoke(this, EventArgs.Empty);
+
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (tag == "Breakable")
-        {
-
-            HandleHit();
-
-        }
-
-
+          HandleHit();
     }
 
     private void HandleHit()
@@ -61,11 +61,15 @@ public class Block : MonoBehaviour
 
     private void DestroyBlock()
     {
-        
+
         TriggerDestroyVFX();
         Destroy(gameObject);
-        level.DestroyBlock();
-        gameStatus.AddScore();
+        OnBlockDestroyed(blockScore);
+    }
+
+    private void OnBlockDestroyed(int score)
+    {
+        BlockDestroyed?.Invoke(this, new BlockEventArgs() { blockScore = score});
     }
 
     private void TriggerDestroySFX()
