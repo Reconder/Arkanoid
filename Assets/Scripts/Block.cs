@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BlockEventArgs: EventArgs
+public class BlockDestroyedEventArgs: EventArgs
 {
     public int blockScore { get; set; }
 }
@@ -21,11 +21,11 @@ public class Block : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
 
-    public delegate void BlockDestroyedEventHandler(object source, BlockEventArgs args);
+    public delegate void BlockDestroyedEventHandler(BlockDestroyedEventArgs args);
 
     public event BlockDestroyedEventHandler BlockDestroyed;
 
-    public delegate void CountBlocksEventHandler(object source, EventArgs args);
+    public delegate void CountBlocksEventHandler();
 
     public event CountBlocksEventHandler CountBlocks;
 
@@ -34,7 +34,7 @@ public class Block : MonoBehaviour
     {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        CountBlocks?.Invoke(this, EventArgs.Empty);
+        CountBlocks?.Invoke();
 
 
     }
@@ -64,7 +64,7 @@ public class Block : MonoBehaviour
         OnBlockDestroyed(blockScore);
     }
 
-    private void OnBlockDestroyed(int score) => BlockDestroyed?.Invoke(this, new BlockEventArgs() { blockScore = score });
+    private void OnBlockDestroyed(int score) => BlockDestroyed?.Invoke(new BlockDestroyedEventArgs() { blockScore = score });
 
     private void TriggerDestroySFX() => AudioSource.PlayClipAtPoint(breakClip, Camera.main.transform.position);
 

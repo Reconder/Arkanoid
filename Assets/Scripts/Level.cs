@@ -14,7 +14,7 @@ public class Level : MonoBehaviour
         sceneLoader = FindObjectOfType<SceneLoader>();
         SubscribeToBlocks();
     }
-    public void CountBreakableBlocks(object block, EventArgs args) => blocks++;
+    public void CountBreakableBlocks() => blocks++;
 
     private void SubscribeToBlocks()
     {
@@ -25,7 +25,7 @@ public class Level : MonoBehaviour
             block.CountBlocks += CountBreakableBlocks;
         }
     }
-    public void OnBlockDestroyed(object block, EventArgs args)
+    public void OnBlockDestroyed(BlockDestroyedEventArgs args)
     {
         blocks--;
         if (blocks<=0) { sceneLoader.LoadNextScene();}

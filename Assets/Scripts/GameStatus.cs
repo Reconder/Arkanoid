@@ -8,7 +8,6 @@ public class GameStatus : MonoBehaviour
 {
     // Start is called before the first frame update
     [Range(0.1f, 10f)] [SerializeField] float gameSpeed = 1f;
-    [SerializeField] int blockScore = 5;
     [SerializeField] bool autoPlay;
     //[SerializeField] int Score;
     [SerializeField] TextMeshProUGUI scoreText;
@@ -45,14 +44,17 @@ public class GameStatus : MonoBehaviour
     }
 
 
-    public void AddScore()
+
+
+    private void AddScore(int addScore)
     {
-        Score += blockScore;
+        Score += addScore;
         scoreText.text = Score.ToString();
     }
+
     // Update is called once per frame
     void Update() => Time.timeScale = gameSpeed;
     public void Reset() => Destroy(gameObject);
     public bool AutoPlay => autoPlay;
-    public void OnBlockDestroyed(object block, EventArgs arg) => AddScore();
+    public void OnBlockDestroyed(BlockDestroyedEventArgs args) => AddScore(args.blockScore);
 }

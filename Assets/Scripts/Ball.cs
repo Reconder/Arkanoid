@@ -28,10 +28,7 @@ public class Ball : MonoBehaviour
 
     }
 
-    private void Attached()
-    {
-        transform.position = new Vector2(paddle.transform.position.x, paddle.transform.position.y + distancePaddleToBall.y);
-    }
+    private void Attached() => transform.position = new Vector2(paddle.transform.position.x, paddle.transform.position.y + distancePaddleToBall.y);
 
     private void Release()
     {

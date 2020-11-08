@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakClip: {fileID: 8300000, guid: 91ccfdb584552274bac06c19dbe76862, type: 3}
   destoryVFX: {fileID: 100000, guid: 7d846c02296ef4dc4abff04ce3e5262c, type: 3}
-  maxHits: 3
+  blockScore: 50
   hitSprites:
   - {fileID: 21300000, guid: 466978a5d9962954ab63f329c668c916, type: 3}
   - {fileID: 21300000, guid: f2e7c5df9744ad549a0492c863f797f1, type: 3}
