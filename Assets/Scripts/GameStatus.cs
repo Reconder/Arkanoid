@@ -13,11 +13,7 @@ public class GameStatus : MonoBehaviour
     //[SerializeField] int Score;
     [SerializeField] TextMeshProUGUI scoreText;
     int Score;
-    private void Awake()
-    {
-        SetUpSingleton();
-        
-    }
+    private void Awake() => SetUpSingleton();
     private void Start()
     {
         scoreText.text = Score.ToString();
@@ -55,18 +51,8 @@ public class GameStatus : MonoBehaviour
         scoreText.text = Score.ToString();
     }
     // Update is called once per frame
-    void Update()
-    {
-        Time.timeScale = gameSpeed;
-    }
-    public void Reset()
-    {
-        Destroy(gameObject);
-    }
-    public bool AutoPlay() { return autoPlay; }
-
-    public void OnBlockDestroyed(object block, EventArgs arg)
-    {
-        AddScore();
-    }
+    void Update() => Time.timeScale = gameSpeed;
+    public void Reset() => Destroy(gameObject);
+    public bool AutoPlay => autoPlay;
+    public void OnBlockDestroyed(object block, EventArgs arg) => AddScore();
 }

@@ -38,10 +38,7 @@ public class Block : MonoBehaviour
 
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-          HandleHit();
-    }
+    private void OnCollisionEnter2D(Collision2D collision) => HandleHit();
 
     private void HandleHit()
     {
@@ -67,15 +64,9 @@ public class Block : MonoBehaviour
         OnBlockDestroyed(blockScore);
     }
 
-    private void OnBlockDestroyed(int score)
-    {
-        BlockDestroyed?.Invoke(this, new BlockEventArgs() { blockScore = score});
-    }
+    private void OnBlockDestroyed(int score) => BlockDestroyed?.Invoke(this, new BlockEventArgs() { blockScore = score });
 
-    private void TriggerDestroySFX()
-    {
-        AudioSource.PlayClipAtPoint(breakClip, Camera.main.transform.position);
-    }
+    private void TriggerDestroySFX() => AudioSource.PlayClipAtPoint(breakClip, Camera.main.transform.position);
 
     private void TriggerDestroyVFX()
     {
